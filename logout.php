@@ -1,9 +1,7 @@
 <?php
 
-    session_start();
-    
-    session_unset();
+session_start();
 
-    header('Location: login.php');
+session_unset();
 
-?>
+header('Location: login.php');

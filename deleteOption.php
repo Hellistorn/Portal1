@@ -1,21 +1,10 @@
 <?php
 session_start();
 
-require_once "connect.php";
+require "connect.php";
 
-$answer = $_POST['q'];
-
-$a = "SELECT * FROM answers WHERE userId='" . $_SESSION['id'] . "' AND quetionId='" . $_GET['q'] . "'";
-$res = $connection->query($a);
-$aCount = $res->num_rows;
-
-if ($aCount == 0) {
-    $stmt = $connection->prepare("INSERT INTO `answers` (`userId`, `quetionId`, `correct`, `lectureId`) 
-            VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiii", $_SESSION['id'], $_GET['q'], $_POST['q'], $_GET['lect']);
-    $stmt->execute();
-}
-
+$opt = "DELETE FROM options WHERE id =" . $_GET['opt'];
+$connection->query($opt);
 
 if (
     !isset($_GET['lect']) ||

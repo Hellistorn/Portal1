@@ -1,21 +1,19 @@
 <?php
 session_start();
 
-require_once "connect.php";
+require "connect.php";
 
-$answer = $_POST['q'];
+$correct = (!empty($_POST['radio'])) ? $_POST['radio'] : '';
 
-$a = "SELECT * FROM answers WHERE userId='" . $_SESSION['id'] . "' AND quetionId='" . $_GET['q'] . "'";
-$res = $connection->query($a);
-$aCount = $res->num_rows;
+$options = $connection->prepare("INSERT INTO `options` (`optionContent`, `quetionId`, `correctness`) VALUES (?, ?, ?)");
 
-if ($aCount == 0) {
-    $stmt = $connection->prepare("INSERT INTO `answers` (`userId`, `quetionId`, `correct`, `lectureId`) 
-            VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiii", $_SESSION['id'], $_GET['q'], $_POST['q'], $_GET['lect']);
-    $stmt->execute();
+for ($i = 1; $i < 5; $i++) {
+    $isCorrect = ($i == $correct) ? 1 : 0;
+    if (!empty($_POST['option-' . $i])) {
+        $options->bind_param('sii', $_POST['option-' . $i], $_GET['q'], $isCorrect);
+        $options->execute();
+    }
 }
-
 
 if (
     !isset($_GET['lect']) ||

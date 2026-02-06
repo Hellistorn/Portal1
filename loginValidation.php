@@ -9,6 +9,7 @@ if ($connection->connect_errno != 0) {
         $name = htmlspecialchars(trim($_POST['name']));
         $surname = htmlspecialchars(trim($_POST['surname']));
         $password = htmlspecialchars(trim($_POST['password']));
+        $nameLecture = htmlspecialchars($lecturesRow['nameLecture']);
 
 
     $sql = "SELECT * FROM users WHERE name='$name' AND surname='$surname' AND password='$password'";

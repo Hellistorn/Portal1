@@ -86,6 +86,20 @@ body,
   display: none;
 }
 
+/* search */
+
+.lecture-search {
+  padding: 10px;
+}
+
+.lecture-search input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
 /* Контейнер профиля */
 .profile-container {
   display: flex;

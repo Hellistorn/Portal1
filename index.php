@@ -57,9 +57,24 @@ $group = $row['group_name'];
 
         </div>
       </div>
-
+            <form method="get" class="lecture-search">
+        <input
+          type="text"
+          name="search"
+          placeholder="Поиск лекции..."
+          value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+        >
+        <?php if (!empty($_GET['group'])): ?>
+          <input type="hidden" name="group" value="<?= htmlspecialchars($_GET['group']) ?>">
+        <?php endif; ?>
+      </form>
       <div id="lecturesList" class="lectures-list">
         <?php
+          $search = '';
+          if (!empty($_GET['search'])) {
+            $search = $connection->real_escape_string($_GET['search']);
+          }
+
         if ($status == 'admin' && empty($_GET['group'])) {
           $lectures = "SELECT * FROM lecture WHERE adminId='$userId'";
         } elseif ($status == 'admin' && !empty($_GET['group'])) {

@@ -6,9 +6,10 @@ if ($connection->connect_errno != 0) {
     echo "Ошибка: " . $connection->connect_errno . "<br>";
     echo "Описание: " . $connection->connect_error;
 } else {
-    $name = $_POST['name'];
-    $surname = $_POST['surname'];
-    $password = $_POST['password'];
+        $name = htmlspecialchars(trim($_POST['name']));
+        $surname = htmlspecialchars(trim($_POST['surname']));
+        $password = htmlspecialchars(trim($_POST['password']));
+
 
     $sql = "SELECT * FROM users WHERE name='$name' AND surname='$surname' AND password='$password'";
 

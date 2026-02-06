@@ -75,13 +75,21 @@ $group = $row['group_name'];
             $search = $connection->real_escape_string($_GET['search']);
           }
 
+          $searchSql = '';
+          if (!empty($search)) {
+            $searchSql = " AND nameLecture LIKE '%$search%'";
+          }
+
         if ($status == 'admin' && empty($_GET['group'])) {
-          $lectures = "SELECT * FROM lecture WHERE adminId='$userId'";
+          $lectures = "SELECT * FROM lecture WHERE adminId='$userId' $searchSql";
         } elseif ($status == 'admin' && !empty($_GET['group'])) {
           $selectedGroup = $_GET['group'];
-          $lectures = "SELECT * FROM lecture WHERE forGroup='$selectedGroup' AND adminId=" . $userId;
+          $lectures = "SELECT * FROM lecture 
+             WHERE forGroup='$selectedGroup' 
+             AND adminId='$userId' 
+             $searchSql";
         } else {
-          $lectures = "SELECT * FROM lecture WHERE forGroup='$group'";
+          $lectures = "SELECT * FROM lecture WHERE forGroup='$group' $searchSql";
         }
         if ($status == 'admin' && !empty($_GET['group'])) {
           if ($lecturesResult = $connection->query($lectures)) {

@@ -37,7 +37,7 @@ $historyRes = $connection->query("SELECT l.nameLecture, t.mark, t.datatime
       <div class="profile-header">
         <div class="profile-avatar">
           <img src="images/user-icon.png" alt="Профиль">
-        </div>
+  </div>
         <h2><?php echo $user['name'] . ' ' . $user['surname']; ?></h2>
         <p>Статус: <?php echo ucfirst($user['status']); ?></p>
       </div>

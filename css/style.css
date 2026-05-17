@@ -692,6 +692,25 @@ label{
   margin-top: 12px;
 }
 
+.modal select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: transparent;
+  color: var(--text);
+}
+
+.modal select option {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.modal select option:focus,
+.modal select option:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .hidden {
   display: none;
 }

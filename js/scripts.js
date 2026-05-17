@@ -66,7 +66,10 @@ if (document.getElementById('btnAddLecture')) {
         <textarea name="content" placeholder="Введите содержание" required></textarea>
 
         <label>Для группы:</label>
-        <input type="text" name="group" placeholder="Введите группу" required>
+        <select name="group" required>
+            <option value="" disabled selected>Выберите группу</option>
+            ${groupsOptions}
+        </select>
     `;
 
     // слушатель кнопки "Сохранить"
@@ -75,7 +78,7 @@ if (document.getElementById('btnAddLecture')) {
         e.preventDefault(); // чтобы не перезагружало страницу
         const name = modalBody.querySelector('input[name="name"]').value.trim();
         const content = modalBody.querySelector('textarea[name="content"]').value.trim();
-        const group = modalBody.querySelector('input[name="group"]').value.trim(); 
+        const group = modalBody.querySelector('select[name="group"]').value.trim(); 
 
         if (name !== "" && content !== "" && group !== "") {
         document.getElementById("modalOverlay").className = "modal-overlay hidden";

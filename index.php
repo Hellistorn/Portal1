@@ -24,6 +24,15 @@ $result = $connection->query($sql);
 $row = $result->fetch_assoc();
 $status = $row['status'];
 $group = $row['group_name'];
+
+$groups = "SELECT * FROM users_group";
+$groupsRes = $connection->query($groups);
+
+$groupsOptions = '';
+
+while ($grp = $groupsRes->fetch_assoc()) {
+    $groupsOptions .= "<option value='{$grp['id']}'>{$grp['name']}</option>";
+}
 ?>
 <!doctype html>
 <html lang="ru">
@@ -184,13 +193,15 @@ $group = $row['group_name'];
               <li class="menu-item">Группы
                 <ul class="submenu">
                   <?php
-                  $allGroup = "SELECT * FROM users_group WHERE adminId = $userId";
+                  $allGroup = "SELECT * FROM users_group";
                   $agRes = $connection->query($allGroup);
                   $agCount = $agRes->num_rows;
                   if ($agCount > 0) {
                     while ($agRow = mysqli_fetch_array($agRes)) {
                       echo ('<li><a href="index.php?group=' . $agRow['name'] . '">' . $agRow['name'] . '</a></li>');
                     }
+                    echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
+                  } else {
                     echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
                   }
                   //<a href="addGroup.php?lect=' . $_GET['lect'] . $n . '">
@@ -206,13 +217,15 @@ $group = $row['group_name'];
               <li class="menu-item">Группы
                 <ul class="submenu">
                   <?php
-                  $allGroup = "SELECT * FROM users_group WHERE adminId = $userId";
+                  $allGroup = "SELECT * FROM users_group";
                   $agRes = $connection->query($allGroup);
                   $agCount = $agRes->num_rows;
                   if ($agCount > 0) {
                     while ($agRow = mysqli_fetch_array($agRes)) {
                       echo ('<li><a href="index.php?group=' . $agRow['name'] . '">' . $agRow['name'] . '</a></li>');
                     }
+                    echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
+                  } else {
                     echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
                   }
                   //<a href="addGroup.php?lect=' . $_GET['lect'] . $n . '">
@@ -232,13 +245,15 @@ $group = $row['group_name'];
               <li class="menu-item">Группы
                 <ul class="submenu">
                   <?php
-                  $allGroup = "SELECT * FROM users_group WHERE adminId = $userId";
+                  $allGroup = "SELECT * FROM users_group";
                   $agRes = $connection->query($allGroup);
                   $agCount = $agRes->num_rows;
                   if ($agCount > 0) {
                     while ($agRow = mysqli_fetch_array($agRes)) {
                       echo ('<li><a href="index.php?group=' . $agRow['name'] . '">' . $agRow['name'] . '</a></li>');
                     }
+                    echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
+                  } else {
                     echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
                   }
                   //<a href="addGroup.php?lect=' . $_GET['lect'] . $n . '">
@@ -586,6 +601,9 @@ $group = $row['group_name'];
   </div>
 
   <script src="js/scripts.js"></script>
+  <script>
+    const groupsOptions = `<?= $groupsOptions ?>`;
+  </script>
 </body>
 
 </html>

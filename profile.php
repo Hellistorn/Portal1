@@ -12,10 +12,10 @@ $result = $connection->query($sql);
 $user = $result->fetch_assoc();
 
 // Получаем достижения студента
-$achievementsRes = $connection->query("SELECT a.name, a.description, a.icon 
-                                       FROM user_achievements ua
-                                       JOIN achievements a ON ua.achievementId = a.id
-                                       WHERE ua.userId = $userId");
+// $achievementsRes = $connection->query("SELECT a.name, a.description, a.icon 
+//                                        FROM user_achievements ua
+//                                        JOIN achievements a ON ua.achievementId = a.id
+//                                        WHERE ua.userId = $userId");
 
 // Получаем историю прохождения лекций
 $historyRes = $connection->query("SELECT l.nameLecture, t.mark, t.datatime
@@ -45,12 +45,12 @@ $historyRes = $connection->query("SELECT l.nameLecture, t.mark, t.datatime
       <div class="profile-achievements">
         <h3>Достижения</h3>
         <div class="achievements">
-          <?php while ($ach = $achievementsRes->fetch_assoc()): ?>
+          <!-- <?php // while ($ach = $achievementsRes->fetch_assoc()): ?>
             <div class="achievement">
-              <img src="<?php echo $ach['icon']; ?>" alt="<?php echo $ach['name']; ?>">
-              <p><?php echo $ach['name']; ?></p>
+              <img src="<?php // echo $ach['icon']; ?>" alt="<?php // echo $ach['name']; ?>">
+              <p><?php // echo $ach['name']; ?></p>
             </div>
-          <?php endwhile; ?>
+          <?php // endwhile; ?> -->
         </div>
       </div>
     </aside>

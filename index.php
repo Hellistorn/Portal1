@@ -23,7 +23,7 @@ $sql = "SELECT * FROM users WHERE id='$userId'";
 $result = $connection->query($sql);
 $row = $result->fetch_assoc();
 $status = $row['status'];
-$group = $row['group_name'];
+$group_name = $row['group_name']; // Текстовое имя группы из профиля студента
 
 $groups = "SELECT * FROM users_group";
 $groupsRes = $connection->query($groups);
@@ -50,8 +50,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
       <div class="sidebar-header">
         <h2>Лекции</h2>
 
-
-        <!-- Админ-кнопки -->
 
         <div class="admin-controls" id="adminControls">
           <?php
@@ -98,12 +96,23 @@ while ($grp = $groupsRes->fetch_assoc()) {
              AND adminId='$userId' 
              $searchSql";
         } else {
-          $lectures = "SELECT * FROM lecture WHERE forGroup='$group' $searchSql";
+          // --- КОНВЕРТАЦИЯ ИМЕНИ ГРУППЫ В ID ДЛЯ СТУДЕНТА ---
+          $group_id = 0;
+          if (!empty($group_name)) {
+            $clean_group_name = $connection->real_escape_string($group_name);
+            $getGroupIdQuery = "SELECT id FROM users_group WHERE name = '$clean_group_name'";
+            $groupIdResult = $connection->query($getGroupIdQuery);
+            if ($groupIdResult && $groupIdResult->num_rows > 0) {
+                $groupRow = $groupIdResult->fetch_assoc();
+                $group_id = $groupRow['id']; // Получили числовой ID группы (например, 7)
+            }
+          }
+          $lectures = "SELECT * FROM lecture WHERE forGroup='$group_id' $searchSql";
         }
+
         if ($status == 'admin' && !empty($_GET['group'])) {
           if ($lecturesResult = $connection->query($lectures)) {
             $lecturesCount = $lecturesResult->num_rows;
-            // $lectureRow = $lectureResult->fetch_assoc();
             if ($lecturesCount > 0) {
               while ($lecturesRow = mysqli_fetch_array($lecturesResult)) {
                 $q = "SELECT * FROM quetions WHERE lectureId='" . $lecturesRow['id'] . "'";
@@ -122,7 +131,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
         } else {
           if ($lecturesResult = $connection->query($lectures)) {
             $lecturesCount = $lecturesResult->num_rows;
-            // $lectureRow = $lectureResult->fetch_assoc();
             if ($lecturesCount > 0) {
               $il = 1;
               echo ('<script>let lecture = []; let deleteBtnCount = 0;</script>');
@@ -204,7 +212,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
                   } else {
                     echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
                   }
-                  //<a href="addGroup.php?lect=' . $_GET['lect'] . $n . '">
                   ?>
                 </ul>
               </li>
@@ -228,7 +235,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
                   } else {
                     echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
                   }
-                  //<a href="addGroup.php?lect=' . $_GET['lect'] . $n . '">
                   ?>
                 </ul>
               </li>
@@ -256,16 +262,14 @@ while ($grp = $groupsRes->fetch_assoc()) {
                   } else {
                     echo ('<li><button id="addGroupBtn" class="btn primary">Добавить</button></li>');
                   }
-                  //<a href="addGroup.php?lect=' . $_GET['lect'] . $n . '">
                   ?>
                 </ul>
               </li>
             </ul>
           <?php
             echo ('</div>');
-          }     // <a class="btn primary" href="adminPanel.php">Панель</a>
+          }
           ?>
-                  <!-- ВСТАВЛЯЕМ ЛОГОТИП СЮДА -->
 
 
         </div>        
@@ -296,7 +300,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
           $tasks = "SELECT * FROM quetions WHERE lectureId='$selectedLectureId'";
           $quetionResult = $connection->query($tasks);
           $quetionCount = $quetionResult->num_rows;
-          // $quetionRow = $quetionResult->fetch_assoc();
 
           $pageContent[0] = $lectureRow['lectureContent'];
           while ($quetionRow = mysqli_fetch_array($quetionResult)) {
@@ -305,9 +308,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
               'content' => $quetionRow['quetionContent']
             ];
           }
-          // print_r($pageContent);
-
-
 
           if (!empty($_GET['pg'])) {
             if ($_GET['pg'] == 1) {
@@ -526,6 +526,7 @@ while ($grp = $groupsRes->fetch_assoc()) {
                   </div>');
           }
         } elseif (!empty($_GET['group'])) {
+          $selectedGroup = $connection->real_escape_string($_GET['group']);
           if (!empty($_GET['gl'])) {
             echo ('<table aria-label="Таблица оценок студентов">
                 <thead>
@@ -562,7 +563,6 @@ while ($grp = $groupsRes->fetch_assoc()) {
             echo ('</tbody>
               </table>');
           } else {
-// 1. Выводим первую часть формы и закрываем команду echo
               echo ('<div id="lectureText" class="lecture-text">
                 <form action="addUser.php?group=' . $_GET['group'] . '" method="POST">
                 <label>Имя</label>
@@ -576,17 +576,15 @@ while ($grp = $groupsRes->fetch_assoc()) {
                   <label><input id="adminRadio" type="radio" name="status" value="admin" required>Учитель</label>
                 </div>
                 <label for="groupInput">Группа</label>
-                <select id="groupInput" name="group">'); // <-- УБРАЛИ required ЗДЕСЬ
+                <select id="groupInput" name="group">'); 
                 
                 echo ('<option value="" disabled selected>Выберите группу</option>');
                   
                 $groups = "SELECT * FROM users_group";
                 $groupsRes = $connection->query($groups);
                 while ($groupsRow = mysqli_fetch_array($groupsRes)) {
-                    // Используем двойные кавычки, чтобы внутри не конфликтовали одинарные
                     echo "<option value='" . $groupsRow['name'] . "'>" . $groupsRow['name'] . "</option>";
                 }
-              // 3. Открываем второй echo для завершения формы
               echo ('</select>
                   <button type="submit" class="btn primary">Создать пользователя</button>
                 </form>
@@ -597,16 +595,10 @@ while ($grp = $groupsRes->fetch_assoc()) {
         }
         ?>
 
-
-        <!-- <div class="quetion"></div> -->
-
-
-
       </section>
     </main>
   </div>
 
-  <!-- Модальные окна -->
   <div id="modalOverlay" class="modal-overlay hidden">
     <form id="modalForm" method="post">
       <div class="modal">
@@ -628,5 +620,4 @@ while ($grp = $groupsRes->fetch_assoc()) {
 </body>
 
 </html>
-
 <?php $connection->close(); ?>

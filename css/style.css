@@ -382,6 +382,20 @@ main {
   margin-bottom: 12px;
 }
 
+.header-logo {
+  position: relative;
+  margin-left: auto;
+  
+}
+
+/* Ограничиваем размеры картинки, чтобы она не растянула хедер */
+.header-logo img {
+  max-height: 50px;               /* Высота логотипа, подстройте под свой дизайн */
+  width: auto;                    /* Пропорциональное масштабирование ширины */
+  display: block;
+  border-radius: 50%;
+}
+
 .main-header h1 {
   margin: 0;
   font-size: 20px;
@@ -415,8 +429,14 @@ main {
   padding: 10px 15px;
 }
 
+/* --- ИЗМЕНЕННЫЙ БЛОК SUBMENU --- */
 .submenu {
-  display: none;
+  /* Вместо display: none используем это для плавности и задержки */
+  opacity: 0;
+  visibility: hidden;
+  /* transition: свойство | время анимации | функция | ЗАДЕРЖКА ПРИ СВЕРТЫВАНИИ */
+  transition: opacity 0.3s ease, visibility 0.3s ease 0.4s; 
+
   position: absolute;
   list-style: none;
   right: 0;
@@ -454,8 +474,12 @@ main {
   background-color: #121214;
 }
 
+/* --- ИЗМЕНЕННЫЙ БЛОК НАВЕДЕНИЯ --- */
 .menu-item:hover .submenu {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  /* Когда мы наводим мышь, меню должно появляться СРАЗУ (задержка 0 секунд) */
+  transition-delay: 0s; 
 }
 
 .meta {
@@ -714,6 +738,27 @@ label{
 .hidden {
   display: none;
 }
+
+/* выборка при созданий users */
+/* Стилизуем само поле выбора (select) */
+#groupInput {
+  background-color: #ffffff; /* Цвет фона самого поля (сделай темным, если тема темная) */
+  color: #333333;            /* Явно задаем цвет текста (темно-серый) */
+  border: 1px solid #ccc;    /* Аккуратная рамка */
+  padding: 8px 12px;         /* Внутренние отступы, чтобы текст не прилипал */
+  border-radius: 4px;        /* Легкое скругление углов */
+  width: 100%;               /* Чтобы растягивался на всю ширину формы */
+  font-size: 16px;
+  outline: none;             /* Убираем стандартную синюю обводку при клике */
+}
+
+ 
+#groupInput, #groupInput option {
+  background-color: #2b2b2f; 
+  color: #ffffff;            
+  border: 1px solid #444444;
+}
+*/
 
 /* small helpers */
 .small {

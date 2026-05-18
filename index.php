@@ -151,7 +151,7 @@ while ($grp = $groupsRes->fetch_assoc()) {
                 $il++;
               }
             } else {
-              echo ('count is 0');
+              echo ('Здесь пока нет лекций');
             }
           } else {
             echo ('conn error');
@@ -265,6 +265,14 @@ while ($grp = $groupsRes->fetch_assoc()) {
             echo ('</div>');
           }     // <a class="btn primary" href="adminPanel.php">Панель</a>
           ?>
+                  <!-- ВСТАВЛЯЕМ ЛОГОТИП СЮДА -->
+
+
+        </div>        
+        <div class="header-logo">
+          <a href="index.php">
+            <img src="images/VTK.jpeg" alt="Логотип" />
+          </a>
         </div>
               <div class="user-profile">
               <img src="images/user-icon.png" alt="Профиль" id="profileIcon">
@@ -554,8 +562,9 @@ while ($grp = $groupsRes->fetch_assoc()) {
             echo ('</tbody>
               </table>');
           } else {
-            echo ('<div id="lectureText" class="lecture-text">
-              <form action="addUser.php?group=' . $_GET['group'] . '" method="POST">
+// 1. Выводим первую часть формы и закрываем команду echo
+              echo ('<div id="lectureText" class="lecture-text">
+                <form action="addUser.php?group=' . $_GET['group'] . '" method="POST">
                 <label>Имя</label>
                 <input type="text" name="name" placeholder="Введите имя" required>
                 <label>Фамилия</label>
@@ -567,10 +576,21 @@ while ($grp = $groupsRes->fetch_assoc()) {
                   <label><input id="adminRadio" type="radio" name="status" value="admin" required>Учитель</label>
                 </div>
                 <label for="groupInput">Группа</label>
-                <input id="groupInput" type="text" name="group" placeholder="Введите группу">
-                <button type="submit" class="btn primary">Создать пользователя</button>
-              </form>
-            </div>');
+                <select id="groupInput" name="group">'); // <-- УБРАЛИ required ЗДЕСЬ
+                
+                echo ('<option value="" disabled selected>Выберите группу</option>');
+                  
+                $groups = "SELECT * FROM users_group";
+                $groupsRes = $connection->query($groups);
+                while ($groupsRow = mysqli_fetch_array($groupsRes)) {
+                    // Используем двойные кавычки, чтобы внутри не конфликтовали одинарные
+                    echo "<option value='" . $groupsRow['name'] . "'>" . $groupsRow['name'] . "</option>";
+                }
+              // 3. Открываем второй echo для завершения формы
+              echo ('</select>
+                  <button type="submit" class="btn primary">Создать пользователя</button>
+                </form>
+              </div>'); 
           }
         } else {
           echo ('<div id="lectureText" class="lecture-text">Выберите лекцию в панели лекций</div>');
@@ -604,6 +624,7 @@ while ($grp = $groupsRes->fetch_assoc()) {
   <script>
     const groupsOptions = `<?= $groupsOptions ?>`;
   </script>
+  
 </body>
 
 </html>

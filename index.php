@@ -90,7 +90,8 @@ while ($grp = $groupsRes->fetch_assoc()) {
         if ($status == 'admin' && empty($_GET['group'])) {
           $lectures = "SELECT * FROM lecture WHERE adminId='$userId' $searchSql";
         } elseif ($status == 'admin' && !empty($_GET['group'])) {
-          $selectedGroup = $_GET['group'];
+          $groupId ="SELECT id FROM users_group WHERE name='".$_GET['group']."'";
+          $selectedGroup = $connection->query($groupId)->fetch_assoc()['id'];
           $lectures = "SELECT * FROM lecture 
              WHERE forGroup='$selectedGroup' 
              AND adminId='$userId' 

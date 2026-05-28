@@ -43,7 +43,6 @@ $historyRes = $connection->query("SELECT l.nameLecture, t.mark, t.datatime
       </div>
 
       <div class="profile-achievements">
-        <h3>Достижения</h3>
         <div class="achievements">
           <!-- <?php // while ($ach = $achievementsRes->fetch_assoc()): ?>
             <div class="achievement">

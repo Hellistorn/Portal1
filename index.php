@@ -198,6 +198,7 @@ while ($grp = $groupsRes->fetch_assoc()) {
           if ($status == 'admin' && !empty($_GET['lect']) && empty($_GET['group'])) {
             echo ('<span id="lectureMeta"></span>
             <div id="lectureActions" class="lecture-actions"><button class="btn" id="addQuetion">Добавить вопрос</button>'); ?>
+            <button class="btn" id="generateQuestions">Сгенерировать вопросы</button>
             <ul class="menu">
               <li class="menu-item">Группы
                 <ul class="submenu">
@@ -617,6 +618,84 @@ while ($grp = $groupsRes->fetch_assoc()) {
   <script>
     const groupsOptions = `<?= $groupsOptions ?>`;
   </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const genBtn = document.getElementById('generateQuestions');
+    if (genBtn) {
+        genBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const lectureId = urlParams.get('lect');
+
+            if (!lectureId) {
+                alert('Ошибка: Не удалось найти ID лекции (?lect=) в URL-адресе.');
+                return;
+            }
+
+            genBtn.innerText = 'ИИ генерирует вопросы...';
+            genBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('lecture_id', lectureId);
+
+            fetch('generate.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { 
+                        throw new Error(`Код ответа сервера: ${response.status}. Текст: ${text}`); 
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                genBtn.innerText = 'Сгенерировать вопросы';
+                genBtn.disabled = false;
+
+if (data.success) {
+    alert('Вопросы по лекции успешно сгенерированы нейросетью!');
+    
+    // Находим контейнер на странице, куда вставим вопросы
+    const container = document.getElementById('questionsContainer'); 
+    if (container) {
+        container.innerHTML = ''; // Очищаем контейнер от старого контента
+
+        // Пробегаемся по массиву вопросов, который прислал PHP
+        data.questions.forEach((q, qIndex) => {
+            let answersHtml = '';
+            
+            // Собираем HTML для вариантов ответов
+            q.answers.forEach((ans, aIndex) => {
+                answersHtml += `
+                    <label style="display:block; margin-bottom: 5px;">
+                        <input type="radio" name="question_${qIndex}" value="${ans.is_correct}">
+                        ${ans.text} ${ans.is_correct ? '<b style="color:green;">(Правильный)</b>' : ''}
+                    </label>
+                `;
+            });
+
+            // Добавляем вопрос в контейнер
+            container.innerHTML += `
+                <div class="question-block" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; borderRadius: 5px;">
+                    <h4>Вопрос №${qIndex + 1}: ${q.text}</h4>
+                    <div class="answers-list">
+                        ${answersHtml}
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        console.error('Контейнер #questionsContainer не найден на странице!');
+    }
+} 
+        });
+    }
+});
+</script>
   
 </body>
 

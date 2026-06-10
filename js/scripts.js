@@ -162,6 +162,38 @@ if(document.getElementById('addQuetion')){
     })
 }
 
+document.getElementById('generateQuestions').addEventListener('click', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lectureId = urlParams.get('lect'); // Получаем ID лекции из URL
+
+    if (!lectureId) return alert('Лекция не найдена');
+
+    // Показываем пользователю, что процесс пошел (лоадер)
+    this.innerText = 'Генерация...';
+    this.disabled = true;
+    let questions = [];
+    // Отправляем запрос на бэкенд
+    fetch('generate.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `lecture_id=${lectureId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        this.innerText = 'Сгенерировать вопросы';
+        this.disabled = false;
+        if (data.success) {
+            questions = data.questions;
+            console.log('Сгенерированные вопросы:', questions);
+            location.reload(); // Перезагружаем страницу, чтобы отобразить новые вопросы
+        } else {
+            alert('Ошибка: ' + data.message);
+        }
+    });
+});
+
+
+
 
 if(document.getElementById('addOptions')){
     document.getElementById('addOptions').addEventListener("click", function(){

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Май 25 2026 г., 20:30
+-- Время создания: Июн 10 2026 г., 23:43
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -20,19 +20,6 @@ SET time_zone = "+00:00";
 --
 -- База данных: `portal1`
 --
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `achievements`
---
-
-CREATE TABLE `achievements` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `icon` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -66,7 +53,13 @@ INSERT INTO `answers` (`id`, `userId`, `quetionId`, `correct`, `lectureId`) VALU
 (38, 102, 71, 1, 41),
 (39, 102, 72, 1, 41),
 (40, 102, 73, 0, 41),
-(41, 102, 74, 0, 41);
+(41, 102, 74, 0, 41),
+(42, 1, 157, 1, 62),
+(43, 102, 163, 0, 62),
+(44, 102, 164, 0, 62),
+(45, 102, 165, 0, 62),
+(46, 1, 166, 1, 62),
+(47, 102, 166, 1, 62);
 
 -- --------------------------------------------------------
 
@@ -790,27 +783,9 @@ INSERT INTO `users_group` (`id`, `name`, `adminId`) VALUES
 (12, 'ТС-25-Ц', 1),
 (13, 'МВТ-25', 1);
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `user_achievements`
---
-
-CREATE TABLE `user_achievements` (
-  `userId` int(11) NOT NULL,
-  `achievementId` int(11) NOT NULL,
-  `date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Индексы сохранённых таблиц
 --
-
---
--- Индексы таблицы `achievements`
---
-ALTER TABLE `achievements`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `answers`
@@ -855,44 +830,32 @@ ALTER TABLE `users_group`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `user_achievements`
---
-ALTER TABLE `user_achievements`
-  ADD PRIMARY KEY (`userId`,`achievementId`);
-
---
 -- AUTO_INCREMENT для сохранённых таблиц
 --
-
---
--- AUTO_INCREMENT для таблицы `achievements`
---
-ALTER TABLE `achievements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT для таблицы `lecture`
 --
 ALTER TABLE `lecture`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT для таблицы `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=580;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=628;
 
 --
 -- AUTO_INCREMENT для таблицы `quetions`
 --
 ALTER TABLE `quetions`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT для таблицы `total`

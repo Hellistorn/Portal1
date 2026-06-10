@@ -268,6 +268,8 @@ function renderAdminControls(){
   }
 }
 
+
+
 function escapeHtml(s){return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');}
 function attachEvents(){
   $('#btnAddLecture').onclick=()=>openAddLectureModal();

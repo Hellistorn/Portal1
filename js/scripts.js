@@ -113,7 +113,10 @@ if (typeof lecture !== "undefined") {
                 <textarea name="content" placeholder="Введите содержание"></textarea>
                 
                 <label>Для группы:</label>
-                <input type="text" name="group" placeholder="Введите группу">
+                <select name="group" required>
+                <option value="" disabled selected>Выберите группу</option>
+                    ${groupsOptions}
+                </select>
             `;
             document.getElementById("modalSave").addEventListener("click", function(){
                 document.getElementById("modalOverlay").className = "modal-overlay hidden";
@@ -162,7 +165,9 @@ if(document.getElementById('addQuetion')){
     })
 }
 
-document.getElementById('generateQuestions').addEventListener('click', function() {
+const btn = document.getElementById('generateQuestions')
+if ( btn ){
+btn.addEventListener('click', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const lectureId = urlParams.get('lect'); // Получаем ID лекции из URL
 
@@ -191,7 +196,7 @@ document.getElementById('generateQuestions').addEventListener('click', function(
         }
     });
 });
-
+}
 
 
 
@@ -294,6 +299,11 @@ if (document.getElementById('adminRadio')) {
 
 const profileIcon = document.getElementById('profileIcon');
 const profileMenu = document.querySelector('.profile-menu');
+if (profileIcon && profileMenu) { 
+    console.log('Profile elements found');
+}else{
+    console.log('Profile elements NOT found');
+}
 
 profileIcon.addEventListener('click', () => {
   profileMenu.classList.toggle('hidden');

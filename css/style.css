@@ -905,6 +905,9 @@ table[aria-label="Таблица оценок студентов"] td.score:cont
 /* ============================= */
 
 
+.mobile-label {
+  display: none;
+}
 
 @media (max-width: 900px) {
   #app {
@@ -1055,4 +1058,132 @@ table[aria-label="Таблица оценок студентов"] td.score:cont
   td{
     font-size: 12px;
   }
+
+  /* --- Фикс кнопок навигации внизу страницы --- */
+  .navigation {
+    display: flex !important;
+    flex-direction: column !important; /* Выстраиваем кнопки вертикально друг под другом */
+    width: 100% !important;
+    gap: 8px !important; /* Делаем аккуратный отступ между ними */
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
+    position: static !important; /* Сбрасываем позиционирование самого контейнера, если оно было */
+    margin-top: 25px !important;
+  }
+
+/* --- Фикс кнопок на странице результатов --- */
+  /* Если на этой странице блок кнопок называется по-другому, 
+     мы насильно сбрасываем свойства самих кнопок */
+  
+  #btnPrev,
+  #btnNext,
+  #toLect,
+  #showTotal,
+  .profile-main a.btn,
+  main a.btn { /* Добавили селекторы для кнопок "На главную" */
+    position: static !important; 
+    transform: none !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 8px auto 0 auto !important; /* Центрируем и делаем отступ сверху */
+    
+    display: block !important;
+    width: 100% !important;
+    max-width: 280px !important; /* Ограничим максимальную ширину, чтобы на телефонах кнопка не была слишком гигантской */
+    text-align: center !important;
+    box-sizing: border-box !important;
+    padding: 10px 12px !important;
+  }
+
+  /* Если они лежат в контейнере, заставляем его выстроиться вертикально */
+  .navigation, 
+  main div:has(#btnPrev) { 
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    position: static !important;
+  }
+
+@media (max-width: 900px) {
+  
+  /* ... тут твой старый код для #app и #sidebar ... */
+
+  /* --- Адаптация ПРОФИЛЯ --- */
+  .profile-container {
+    flex-direction: column !important; /* Насильно выстраиваем в один столбец */
+    padding: 12px !important;
+    gap: 15px !important;
+    width: 100% !important;
+  }
+
+  .profile-sidebar {
+    width: 100% !important; /* Насильно растягиваем на весь экран мобилки */
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+
+  .profile-avatar img {
+    margin: 0 auto !important;
+  }
+
+  .profile-main {
+    width: 100% !important;
+    padding: 15px !important;
+    min-height: auto !important; /* Убираем фиксированные 500px */
+  }
+
+  /* Перестройка таблицы */
+  .profile-main table, 
+  .profile-main thead, 
+  .profile-main tbody, 
+  .profile-main th, 
+  .profile-main td, 
+  .profile-main tr { 
+    display: block !important; 
+    width: 100% !important;
+  }
+
+  .profile-main thead tr { 
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+  }
+
+  .profile-main tr {
+    margin-bottom: 12px !important;
+    border: 1px solid #3a3a3f !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    background-color: #232326 !important; 
+  }
+
+  .profile-main td {
+    padding: 5px 0 !important;
+    border-bottom: none !important;
+    text-align: left !important; 
+    width: 100% !important; 
+  }
+
+  .profile-main td:first-child {
+    font-weight: bold !important;
+    border-bottom: 1px solid #3a3a3f !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .mobile-label {
+    display: inline !important; /* Показываем скрытые надписи */
+    font-weight: bold !important;
+    color: #aaa !important;
+    margin-right: 5px !important;
+  }
+
+  .profile-main a.btn {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
 }
+

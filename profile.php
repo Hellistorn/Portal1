@@ -28,6 +28,7 @@ $historyRes = $connection->query("SELECT l.nameLecture, t.mark, t.datatime
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль студента</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -67,9 +68,9 @@ $historyRes = $connection->query("SELECT l.nameLecture, t.mark, t.datatime
         <tbody>
           <?php while ($h = $historyRes->fetch_assoc()): ?>
             <tr>
-              <td><?php echo $h['nameLecture']; ?></td>
-              <td><?php echo $h['mark']; ?></td>
-              <td><?php echo $h['datatime']; ?></td>
+              <td><?php echo htmlspecialchars($h['nameLecture']); ?></td>
+              <td><span class="mobile-label">Балл: </span><?php echo htmlspecialchars($h['mark']); ?></td>
+              <td><span class="mobile-label">Дата: </span><?php echo htmlspecialchars($h['datatime']); ?></td>
             </tr>
           <?php endwhile; ?>
         </tbody>

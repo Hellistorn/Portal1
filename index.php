@@ -366,7 +366,7 @@ while ($grp = $groupsRes->fetch_assoc()) {
                 if ((count($pageContent) - 1) == intval($shCount)) {
                   echo ('<div class="navigation">
                     <a id="btnPrev" class="btn" href="index.php?lect=' . $selectedLectureId . '&pg=' . $_GET['pg']  - 1 . '">Предыдущая</a>
-                    <a id="toLect" class="btn" href="index.php?lect=' . $selectedLectureId . '&pg=1">К лекции</a>
+                    <a id="toLect" class="btn" href="index.php?lect=' . $selectedLectureId . '&pg=1,">К лекции</a>
                     <a id="showTotal" class="btn primary" href="index.php?lect=' . $selectedLectureId . '&pg=result">Показать результат</a>
                     </div>');
                 } else {
